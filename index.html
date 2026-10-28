@@ -33,6 +33,26 @@
     .about-page .site-nav .nav-links .repo-trigger { display: inline-flex; align-items: center; gap: 4px; outline: none; }
     .about-page .site-nav .nav-links .repo-trigger .repo-arrow { font-size: 0.8em; transition: transform 0.2s ease; }
     .about-page .site-nav .nav-links .repo-trigger:hover .repo-arrow { transform: translateY(1px); }
+    .about-page .site-nav .nav-toggle { display: none; align-items: center; justify-content: center; width: 42px; height: 42px; border: none; background: transparent; color: #fff; font-size: 24px; line-height: 1; cursor: pointer; border-radius: 8px; transition: background 0.2s ease; }
+    .about-page .site-nav .nav-toggle:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* 导航移动端适配 */
+    @media (max-width: 768px) {
+      .about-page .site-nav .site-nav-inner { padding: 0 16px; }
+      .about-page .site-nav .nav-toggle { display: inline-flex; }
+      .about-page .site-nav .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        background: rgba(15, 23, 42, 0.98);
+        max-height: 0; overflow: hidden; opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      }
+      .about-page .site-nav.nav-open .nav-links { max-height: 360px; opacity: 1; padding: 8px 0 14px; }
+      .about-page .site-nav .nav-links .nav-link { display: block; padding: 13px 24px; font-size: 1rem; }
+      .about-page .site-nav .nav-links .repo-trigger { justify-content: flex-start; }
+      .about-page .site-nav .nav-links .el-button { width: calc(100% - 48px); margin: 10px 24px 0; justify-content: center; }
+    }
 
     /* 欢迎区域 */
     .about-page .welcome-section { background: linear-gradient(135deg, #1b2a4a 0%, #2f6b4f 100%); color: #fff; padding: 50px 0; text-align: center; margin: 0 -20px 30px; position: relative; overflow: hidden; }
@@ -192,7 +212,7 @@
   <script type="text/x-template" id="tmpl">
     <div class="app-container about-page">
       <!-- 顶部导航 -->
-      <div class="site-nav">
+      <div class="site-nav" :class="{ 'nav-open': menuOpen }">
         <div class="site-nav-inner">
           <div class="nav-brand" @click="goTarget('/index')">
             <img src="logo.svg" alt="小护康养 logo" class="nav-logo" />
@@ -220,6 +240,9 @@
               登录入口
             </el-button>
           </div>
+          <button class="nav-toggle" @click="menuOpen = !menuOpen" :aria-label="menuOpen ? '关闭菜单' : '打开菜单'">
+            <el-icon><component :is="menuOpen ? 'Close' : 'Menu'" /></el-icon>
+          </button>
         </div>
       </div>
 
@@ -437,6 +460,9 @@
       setup() {
         const version = ref('3.9.0');
 
+        // 移动端导航菜单展开状态
+        const menuOpen = ref(false);
+
         const quickStart = ref([
           'git clone https://gitee.com/chongkelai/xiaohucare-mini-vue.git',
           'cd xiaohucare-vue && npm install',
@@ -565,6 +591,7 @@
         // 静态介绍页里 /index、/login、/register 等路由并不存在，
         // 这里改为：回到顶部，避免出现 404。若你有实际地址，替换即可。
         function goTarget(url) {
+          menuOpen.value = false;
           const realLinks = {
             // '/index': 'https://your-demo-site.example.com',
             // '/login': 'https://your-demo-site.example.com/login',
@@ -579,10 +606,11 @@
 
         // 打开外链（官网 / 开源仓库），新标签页
         function openExternal(url) {
+          menuOpen.value = false;
           window.open(url, '_blank', 'noopener');
         }
 
-        return { version, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget, openExternal };
+        return { version, menuOpen, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget, openExternal };
       }
     };
 
