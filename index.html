@@ -30,6 +30,9 @@
     .about-page .site-nav .nav-links { display: flex; align-items: center; gap: 24px; }
     .about-page .site-nav .nav-links .nav-link { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; cursor: pointer; transition: color 0.2s ease; }
     .about-page .site-nav .nav-links .nav-link:hover { color: #41b883; }
+    .about-page .site-nav .nav-links .repo-trigger { display: inline-flex; align-items: center; gap: 4px; outline: none; }
+    .about-page .site-nav .nav-links .repo-trigger .repo-arrow { font-size: 0.8em; transition: transform 0.2s ease; }
+    .about-page .site-nav .nav-links .repo-trigger:hover .repo-arrow { transform: translateY(1px); }
 
     /* 欢迎区域 */
     .about-page .welcome-section { background: linear-gradient(135deg, #1b2a4a 0%, #2f6b4f 100%); color: #fff; padding: 50px 0; text-align: center; margin: 0 -20px 30px; position: relative; overflow: hidden; }
@@ -104,6 +107,13 @@
     .about-page .quick-card .contact-info h4 { font-size: 1rem; color: #333; margin-bottom: 12px; }
     .about-page .quick-card .contact-info p { display: flex; align-items: center; gap: 8px; color: #666; font-size: 0.9rem; margin: 8px 0; }
     .about-page .quick-card .contact-info p .el-icon { color: #409EFF; }
+    .about-page .quick-card .contact-info .repo-list { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+    .about-page .quick-card .contact-info .repo-list .repo-group { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .about-page .quick-card .contact-info .repo-list .repo-group .repo-label { display: flex; align-items: center; gap: 8px; color: #666; font-size: 0.9rem; flex-shrink: 0; }
+    .about-page .quick-card .contact-info .repo-list .repo-group .repo-label .el-icon { color: #409EFF; }
+    .about-page .quick-card .contact-info .repo-list .repo-group .repo-links { display: flex; gap: 8px; }
+    .about-page .quick-card .contact-info .repo-list .repo-link { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 6px; background: #f0f7ff; color: #409EFF; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: all 0.2s ease; }
+    .about-page .quick-card .contact-info .repo-list .repo-link:hover { background: #409EFF; color: #fff; }
 
     /* 功能列表 */
     .about-page .feature-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
@@ -133,6 +143,24 @@
     .about-page .advantage-item .adv-icon { font-size: 40px; margin-bottom: 12px; }
     .about-page .advantage-item h4 { font-size: 1.1rem; font-weight: 600; color: #333; margin-bottom: 8px; }
     .about-page .advantage-item p { font-size: 0.85rem; color: #666; margin: 0; }
+
+    /* 商务咨询 */
+    .about-page .business-section .business-card { max-width: 760px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); padding: 32px; display: flex; align-items: center; gap: 36px; }
+    .about-page .business-section .business-qr { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .about-page .business-section .business-qr img { width: 200px; height: 200px; object-fit: cover; border-radius: 12px; border: 1px solid #eef2f7; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+    .about-page .business-section .business-qr .qr-tip { display: inline-flex; align-items: center; gap: 6px; color: #07c160; font-size: 0.9rem; font-weight: 600; }
+    .about-page .business-section .business-info { flex: 1; }
+    .about-page .business-section .business-info h3 { font-size: 1.3rem; font-weight: 700; color: #333; margin: 0 0 10px; }
+    .about-page .business-section .business-info .business-lead { color: #666; font-size: 0.95rem; margin: 0 0 14px; line-height: 1.6; }
+    .about-page .business-section .business-info .business-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .about-page .business-section .business-info .business-list li { display: flex; align-items: center; gap: 8px; color: #444; font-size: 0.92rem; }
+    .about-page .business-section .business-info .business-list li .el-icon { color: #07c160; font-size: 1.05rem; flex-shrink: 0; }
+    .about-page .business-section .business-info .business-mail { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 16px; border-radius: 999px; background: #f0f7ff; color: #409EFF; font-size: 0.92rem; font-weight: 600; text-decoration: none; transition: all 0.2s ease; }
+    .about-page .business-section .business-info .business-mail:hover { background: #409EFF; color: #fff; }
+    @media (max-width: 640px) {
+      .about-page .business-section .business-card { flex-direction: column; text-align: center; gap: 22px; padding: 26px 20px; }
+      .about-page .business-section .business-info .business-list { align-items: center; }
+    }
 
     /* 动画 */
     .about-page .card-animate { animation: slideUp 0.6s ease-out forwards; opacity: 0; transform: translateY(30px); }
@@ -172,6 +200,21 @@
           </div>
           <div class="nav-links">
             <a class="nav-link" @click="goTarget('/index')">首页</a>
+            <a class="nav-link" @click="openExternal('http://xiaohucare.com/')">官网</a>
+            <el-dropdown trigger="hover" @command="openExternal">
+              <span class="nav-link repo-trigger">
+                开源仓库
+                <el-icon class="repo-arrow"><ArrowDown /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="https://github.com/xiaohucare/xiaohucare-mini-vue">前端 · GitHub</el-dropdown-item>
+                  <el-dropdown-item command="https://gitee.com/chongkelai/xiaohucare-mini-vue">前端 · Gitee</el-dropdown-item>
+                  <el-dropdown-item divided command="https://github.com/xiaohucare/xiaohucare-mini">后端 · GitHub</el-dropdown-item>
+                  <el-dropdown-item command="https://gitee.com/chongkelai/xiaohucare-mini">后端 · Gitee</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
             <el-button type="primary" round @click="goTarget('/login')">
               <el-icon><UserFilled /></el-icon>
               登录入口
@@ -304,7 +347,22 @@
                 <div class="contact-info">
                   <h4>开源信息</h4>
                   <p><el-icon><Document /></el-icon> 许可证：MIT · 可免费商用</p>
-                  <p><el-icon><Share /></el-icon> 仓库：gitee.com/chongkelai/xiaohucare-mini-vue.git（骨架同源）</p>
+                  <div class="repo-list">
+                    <div class="repo-group">
+                      <span class="repo-label"><el-icon><EditPen /></el-icon> 前端 (Vue3)</span>
+                      <div class="repo-links">
+                        <a class="repo-link" href="https://github.com/xiaohucare/xiaohucare-mini-vue" target="_blank" rel="noopener"><el-icon><Link /></el-icon> GitHub</a>
+                        <a class="repo-link" href="https://gitee.com/chongkelai/xiaohucare-mini-vue" target="_blank" rel="noopener"><el-icon><Link /></el-icon> Gitee</a>
+                      </div>
+                    </div>
+                    <div class="repo-group">
+                      <span class="repo-label"><el-icon><EditPen /></el-icon> 后端 (Java)</span>
+                      <div class="repo-links">
+                        <a class="repo-link" href="https://github.com/xiaohucare/xiaohucare-mini" target="_blank" rel="noopener"><el-icon><Link /></el-icon> GitHub</a>
+                        <a class="repo-link" href="https://gitee.com/chongkelai/xiaohucare-mini" target="_blank" rel="noopener"><el-icon><Link /></el-icon> Gitee</a>
+                      </div>
+                    </div>
+                  </div>
                   <p><el-icon><Operation /></el-icon> 分支：主分支保持稳定，特性走独立分支</p>
                 </div>
               </div>
@@ -342,6 +400,29 @@
             </div>
           </el-col>
         </el-row>
+      </div>
+
+      <!-- 商务咨询 -->
+      <div class="section-block business-section">
+        <h2 class="section-main-title">商务咨询</h2>
+        <p class="section-main-desc">产品演示、私有化部署、定制开发与 Pro 版授权，欢迎扫码添加微信与我们沟通</p>
+        <div class="business-card card-animate">
+          <div class="business-qr">
+            <img src="contact-wx.jpg" alt="微信二维码 · 小护康养商务咨询" />
+            <span class="qr-tip"><el-icon><ChatDotRound /></el-icon> 微信扫一扫</span>
+          </div>
+          <div class="business-info">
+            <h3>联系我们</h3>
+            <p class="business-lead">扫码添加商务顾问微信，即可获取：</p>
+            <ul class="business-list">
+              <li><el-icon><Select /></el-icon> 在线演示与功能介绍</li>
+              <li><el-icon><Select /></el-icon> 私有化部署与技术支持</li>
+              <li><el-icon><Select /></el-icon> 智能监护等 Pro 版授权方案</li>
+              <li><el-icon><Select /></el-icon> 定制开发与商务合作</li>
+            </ul>
+            <a class="business-mail" href="mailto:chongkelai@qq.com"><el-icon><Message /></el-icon> chongkelai@qq.com</a>
+          </div>
+        </div>
       </div>
     </div>
   </script>
@@ -496,7 +577,12 @@
           }
         }
 
-        return { version, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget };
+        // 打开外链（官网 / 开源仓库），新标签页
+        function openExternal(url) {
+          window.open(url, '_blank', 'noopener');
+        }
+
+        return { version, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget, openExternal };
       }
     };
 
