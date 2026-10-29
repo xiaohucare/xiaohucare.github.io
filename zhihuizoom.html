@@ -12,8 +12,40 @@
       height: 100%;
       background: #000;
       overflow: hidden;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
     }
+
+    /* 顶部导航（与 index.html 风格一致） */
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(10px); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); }
+    .site-nav .site-nav-inner { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .site-nav .nav-brand { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+    .site-nav .nav-brand .nav-logo { width: 30px; height: 30px; display: block; }
+    .site-nav .nav-brand .nav-title { font-size: 1.15rem; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+    .site-nav .nav-links { display: flex; align-items: center; gap: 24px; }
+    .site-nav .nav-links .nav-link { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; cursor: pointer; text-decoration: none; transition: color 0.2s ease; }
+    .site-nav .nav-links .nav-link:hover { color: #41b883; }
+    .site-nav .nav-links .nav-link.active { color: #41b883; font-weight: 600; }
+    .site-nav .nav-toggle { display: none; align-items: center; justify-content: center; width: 42px; height: 42px; border: none; background: transparent; color: #fff; font-size: 24px; line-height: 1; cursor: pointer; border-radius: 8px; transition: background 0.2s ease; }
+    .site-nav .nav-toggle:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* 导航移动端适配 */
+    @media (max-width: 768px) {
+      .site-nav .site-nav-inner { padding: 0 16px; }
+      .site-nav .nav-toggle { display: inline-flex; }
+      .site-nav .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        background: rgba(15, 23, 42, 0.98);
+        max-height: 0; overflow: hidden; opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      }
+      .site-nav.nav-open .nav-links { max-height: 360px; opacity: 1; padding: 8px 0 14px; }
+      .site-nav .nav-links .nav-link { display: block; padding: 13px 24px; font-size: 1rem; }
+    }
+
     .screen {
+        margin-top: 60px;
       width: 100vw;
       height: 100vh;
       display: flex;
@@ -29,8 +61,35 @@
   </style>
 </head>
 <body>
+  <!-- 顶部导航 -->
+  <div class="site-nav" id="siteNav">
+    <div class="site-nav-inner">
+      <a class="nav-brand" href="index.html">
+        <img src="logo.svg" alt="小护康养 logo" class="nav-logo" />
+        <span class="nav-title">小护康养 mini</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">返回首页</a>
+        <a class="nav-link" href="http://xiaohucare.com/" target="_blank" rel="noopener">去官网</a>
+        <a class="nav-link active" href="zhihuizoom.html">智慧园区大屏</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单">☰</button>
+    </div>
+  </div>
+
   <div class="screen">
     <img src="park-screen.png" alt="智慧园区大屏">
   </div>
+
+  <script>
+    // 移动端导航展开/收起
+    const nav = document.getElementById('siteNav');
+    const toggle = document.getElementById('navToggle');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('nav-open');
+      toggle.textContent = open ? '✕' : '☰';
+      toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    });
+  </script>
 </body>
 </html>
