@@ -5,14 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>小护康养 mini · 开源项目</title>
 
-  <!-- Element Plus 样式 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@2.10.1/dist/index.css" />
+  <!-- Element Plus 样式（主源 npmmirror 国内镜像，失败时回退 jsdelivr） -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/element-plus/2.10.1/files/dist/index.css"
+        onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/element-plus@2.10.1/dist/index.css'" />
   <!-- Vue 3（含运行时编译器，可在浏览器直接编译模板） -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
+  <script src="https://registry.npmmirror.com/vue/3.5.13/files/dist/vue.global.prod.js"
+          onerror="this.onerror=null;document.write('<script src=&quot;https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js&quot;><\/script>')"></script>
   <!-- Element Plus 全量包 -->
-  <script src="https://cdn.jsdelivr.net/npm/element-plus@2.10.1/dist/index.full.min.js"></script>
+  <script src="https://registry.npmmirror.com/element-plus/2.10.1/files/dist/index.full.min.js"
+          onerror="this.onerror=null;document.write('<script src=&quot;https://cdn.jsdelivr.net/npm/element-plus@2.10.1/dist/index.full.min.js&quot;><\/script>')"></script>
   <!-- Element Plus 图标 -->
-  <script src="https://cdn.jsdelivr.net/npm/@element-plus/icons-vue@2.3.1/dist/index.iife.min.js"></script>
+  <script src="https://registry.npmmirror.com/@element-plus/icons-vue/2.3.1/files/dist/index.iife.min.js"
+          onerror="this.onerror=null;document.write('<script src=&quot;https://cdn.jsdelivr.net/npm/@element-plus/icons-vue@2.3.1/dist/index.iife.min.js&quot;><\/script>')"></script>
 
   <style>
     * { box-sizing: border-box; }
