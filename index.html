@@ -199,6 +199,17 @@
     @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
     @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
+    /* 底部备案 */
+    .site-footer { max-width: 1200px; margin: 0 auto; padding: 8px 20px 0; text-align: center; }
+    .beian { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 0.82rem; line-height: 1.6; }
+    .beian-link { display: inline-flex; align-items: center; gap: 6px; color: #8a94a6; text-decoration: none; transition: color 0.2s ease; }
+    .beian-link:hover { color: #41b883; text-decoration: underline; }
+    .beian-dot { color: #c0c6d0; }
+    .beian-logo { width: 14px; height: 14px; display: block; }
+    .beian.is-dark .beian-link { color: rgba(255, 255, 255, 0.6); }
+    .beian.is-dark .beian-link:hover { color: #41b883; }
+    .beian.is-dark .beian-dot { color: rgba(255, 255, 255, 0.3); }
+
     /* 响应式 */
     @media (max-width: 768px) {
       .about-page .welcome-section { padding: 40px 0; }
@@ -452,6 +463,31 @@
           </div>
         </div>
       </div>
+
+      <!-- 底部备案 -->
+      <footer class="site-footer">
+        <div class="beian" :class="'is-' + theme">
+          <a
+            class="beian-link"
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >渝ICP备2026015229号-5</a>
+          <!-- 公安备案：需要展示时把下面整段一起放开（含分隔点） -->
+          <!--
+          <span class="beian-dot">·</span>
+          <a
+            class="beian-link beian-police"
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=50010802006929"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img class="beian-logo" :src="logo" alt="渝公网安备 50010802006929号" />
+            <span>渝公网安备 50010802006929号</span>
+          </a>
+          -->
+        </div>
+      </footer>
     </div>
   </script>
 
@@ -464,6 +500,10 @@
       template: '#tmpl',
       setup() {
         const version = ref('3.9.0');
+
+        // 页脚备案：主题与 logo（公安备案图标用）
+        const theme = ref('light');
+        const logo = ref('logo.png');
 
         // 移动端导航菜单展开状态
         const menuOpen = ref(false);
@@ -615,7 +655,7 @@
           window.open(url, '_blank', 'noopener');
         }
 
-        return { version, menuOpen, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget, openExternal };
+        return { version, theme, logo, menuOpen, quickStart, modules, abilities, advantages, contributeWays, copyCmd, goTarget, openExternal };
       }
     };
 
